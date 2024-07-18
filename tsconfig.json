@@ -101,5 +101,5 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "jsx": "react"
   },
-  "exclude": ["demo-app", "dist"]
+  "exclude": ["example", "dist"]
 }
