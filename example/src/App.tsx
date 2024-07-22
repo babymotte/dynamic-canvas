@@ -4,10 +4,15 @@ import "./App.css";
 
 export default function App() {
   const ref = React.useRef(null);
+  const canvasRef = React.useRef(null);
+
+  React.useLayoutEffect(() => {
+    console.log(canvasRef.current);
+  }, []);
 
   return (
     <div style={{ width: "100%", height: "100vh" }} ref={ref}>
-      <DynamicCanvas parentRef={ref}>
+      <DynamicCanvas parentRef={ref} canvasRef={canvasRef}>
         <Cross color="blue" />
       </DynamicCanvas>
     </div>
