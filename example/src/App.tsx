@@ -12,7 +12,11 @@ export default function App() {
 
   return (
     <div style={{ width: "100%", height: "100vh" }} ref={ref}>
-      <DynamicCanvas parentRef={ref} canvasRef={canvasRef}>
+      <DynamicCanvas
+        parentRef={ref}
+        canvasRef={canvasRef}
+        style={{ opacity: 0.1 }}
+      >
         <Cross color="blue" />
       </DynamicCanvas>
     </div>
@@ -22,6 +26,8 @@ export default function App() {
 type CrossProps = CanvasComponentProps & { color: string };
 
 function Cross({ ctx, canvasWidth: w, canvasHeight: h, color }: CrossProps) {
+  console.log("rendering");
+
   React.useEffect(() => {
     if (ctx && w && h) {
       ctx.clearRect(0, 0, w, h);

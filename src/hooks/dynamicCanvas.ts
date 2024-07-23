@@ -18,7 +18,8 @@ import React from "react";
 import { useContainerBounds } from "./dynamicContainer";
 
 export function useDynamicCanvasProps<T extends Element>(
-  containerRef: React.RefObject<T | null | undefined> | undefined
+  containerRef: React.RefObject<T | null | undefined> | undefined,
+  additionalStyle: React.CSSProperties | undefined
 ) {
   const [canvasWidth, canvasHeight] = useContainerBounds<T>(containerRef);
 
@@ -26,14 +27,19 @@ export function useDynamicCanvasProps<T extends Element>(
 
   const style = React.useMemo(
     () => ({
+      ...additionalStyle,
       width: `${canvasWidth}px`,
       height: `${canvasHeight}px`,
     }),
-    [canvasHeight, canvasWidth]
+    [canvasHeight, canvasWidth, additionalStyle]
   );
 
   return React.useMemo(
-    () => ({ width: ratio * canvasWidth, height: ratio * canvasHeight, style }),
+    () => ({
+      width: ratio * canvasWidth,
+      height: ratio * canvasHeight,
+      style,
+    }),
     [canvasHeight, canvasWidth, ratio, style]
   );
 }

@@ -24,14 +24,16 @@ export function DynamicCanvas<T extends Element>({
   children,
   parentRef,
   canvasRef: cr,
+  style,
 }: {
   children?:
     | React.ReactElement<CanvasComponentProps>
     | React.ReactElement<CanvasComponentProps>[];
   parentRef: React.RefObject<T | null | undefined>;
   canvasRef?: React.MutableRefObject<HTMLCanvasElement | null>;
+  style?: React.CSSProperties;
 }) {
-  const props = useDynamicCanvasProps<T>(parentRef);
+  const props = useDynamicCanvasProps<T>(parentRef, style);
   const internalCanvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const canvasRef = cr || internalCanvasRef;
 
