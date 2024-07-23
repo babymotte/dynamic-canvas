@@ -1,6 +1,6 @@
 {
   "name": "@babymotte/dynamic-canvas",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A dynamically resizing canvas component for React",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,8 +8,8 @@
     "/dist"
   ],
   "devDependencies": {
-    "react": "^18.3.1",
-    "@types/react": "^18.3.3",
+    "react": "^17.0.0 || ^18.0.0",
+    "@types/react": "^17.0.0 || ^18.0.0",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "eslint": "^8.57.0",
@@ -18,7 +18,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "react": "^18.3.1"
+    "react": "^17.0.0 || ^18.0.0"
   },
   "scripts": {
     "build": "npx tsc",
@@ -29,7 +29,10 @@
     "type": "git",
     "url": "git+https://github.com/babymotte/dynamic-canvas.git"
   },
-  "author": "Michael Bachmann <mbachmann@bbmsoft.net>",
+  "author": {
+    "name": "Michael Bachmann",
+    "email": "mbachmann@bbmsoft.net"
+  },
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/babymotte/dynamic-canvas/issues"
