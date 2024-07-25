@@ -19,16 +19,16 @@ import { CanvasComponentProps } from "..";
 
 export function DynamicCanvas({
   children,
-  ref,
-  style,
+  canvasRef: ref,
+  ...props
 }: {
   children?:
     | React.ReactElement<CanvasComponentProps>
     | React.ReactElement<CanvasComponentProps>[];
-  ref?: React.MutableRefObject<HTMLCanvasElement | null>;
+  canvasRef?: React.MutableRefObject<HTMLCanvasElement | null>;
   style?: React.CSSProperties;
+  props?: object;
 }) {
-  const divRef = React.useRef<HTMLDivElement | null>(null);
   const internalCanvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
@@ -50,8 +50,9 @@ export function DynamicCanvas({
   });
 
   React.useLayoutEffect(() => {
-    const elem = divRef.current;
-    if (elem != null) {
+    const canvas = canvasRef.current;
+    const parent = canvas?.parentElement;
+    if (parent != null) {
       const listener = new ResizeObserver((entries) => {
         setWidth(0);
         setHeight(0);
@@ -68,24 +69,22 @@ export function DynamicCanvas({
           });
         });
       });
-      listener.observe(elem);
+      listener.observe(parent);
       return () => {
-        listener.unobserve(elem);
+        listener.unobserve(parent);
         listener.disconnect();
       };
     }
-  }, []);
+  }, [canvasRef]);
 
   return (
-    <div ref={divRef} style={{ ...style }}>
-      <canvas
-        width={width * ratio}
-        height={height * ratio}
-        style={{ width: "100%", height: "100%" }}
-        ref={canvasRef}
-      >
-        {childrenWithProps}
-      </canvas>
-    </div>
+    <canvas
+      {...props}
+      width={width * ratio}
+      height={height * ratio}
+      ref={canvasRef}
+    >
+      {childrenWithProps}
+    </canvas>
   );
 }

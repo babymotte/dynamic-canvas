@@ -9,10 +9,7 @@ export default function ButtonContainer({ count }: { count: number }) {
         style={{
           order: i,
           flexGrow: 1,
-          padding: 0,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "stretch",
+          padding: "1em",
         }}
       >
         <Cross />

@@ -3,7 +3,7 @@ import { CanvasComponentProps, DynamicCanvas } from "../../dist";
 
 export default function Cross() {
   return (
-    <DynamicCanvas style={{ border: "1em solid red", flexGrow: 1 }}>
+    <DynamicCanvas style={{ width: "100%", height: "100%" }}>
       <CrossGraphic color="blue" />
     </DynamicCanvas>
   );
