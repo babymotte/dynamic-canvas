@@ -1,12 +1,13 @@
 {
   "name": "@babymotte/dynamic-canvas",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "A dynamically resizing canvas component for React",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "/dist"
   ],
+  "type": "module",
   "devDependencies": {
     "react": "^17.0.0 || ^18.0.0",
     "@types/react": "^17.0.0 || ^18.0.0",

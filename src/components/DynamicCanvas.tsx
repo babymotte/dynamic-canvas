@@ -15,32 +15,31 @@
  */
 
 import React from "react";
-import {
-  CanvasComponentProps,
-  useDynamicCanvasProps,
-} from "../hooks/dynamicCanvas";
+import { CanvasComponentProps } from "..";
 
-export function DynamicCanvas<T extends Element>({
+export function DynamicCanvas({
   children,
-  parentRef,
-  canvasRef: cr,
+  ref,
   style,
 }: {
   children?:
     | React.ReactElement<CanvasComponentProps>
     | React.ReactElement<CanvasComponentProps>[];
-  parentRef: React.RefObject<T | null | undefined>;
-  canvasRef?: React.MutableRefObject<HTMLCanvasElement | null>;
+  ref?: React.MutableRefObject<HTMLCanvasElement | null>;
   style?: React.CSSProperties;
 }) {
-  const props = useDynamicCanvasProps<T>(parentRef, style);
+  const divRef = React.useRef<HTMLDivElement | null>(null);
   const internalCanvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const canvasRef = cr || internalCanvasRef;
+  const [width, setWidth] = React.useState(0);
+  const [height, setHeight] = React.useState(0);
+  const canvasRef = ref || internalCanvasRef;
+
+  const ratio = window.devicePixelRatio;
 
   const childProps = {
     ctx: canvasRef.current?.getContext("2d"),
-    canvasWidth: props.width,
-    canvasHeight: props.height,
+    canvasWidth: width * ratio,
+    canvasHeight: height * ratio,
   };
 
   const childrenWithProps = React.Children.map(children, (child) => {
@@ -50,9 +49,43 @@ export function DynamicCanvas<T extends Element>({
     return child;
   });
 
+  React.useLayoutEffect(() => {
+    const elem = divRef.current;
+    if (elem != null) {
+      const listener = new ResizeObserver((entries) => {
+        setWidth(0);
+        setHeight(0);
+        requestAnimationFrame(() => {
+          setWidth(entries[0].contentRect.width);
+          setHeight(entries[0].contentRect.height);
+          requestAnimationFrame(() => {
+            setWidth(0);
+            setHeight(0);
+            requestAnimationFrame(() => {
+              setWidth(entries[0].contentRect.width);
+              setHeight(entries[0].contentRect.height);
+            });
+          });
+        });
+      });
+      listener.observe(elem);
+      return () => {
+        listener.unobserve(elem);
+        listener.disconnect();
+      };
+    }
+  }, []);
+
   return (
-    <canvas {...props} ref={canvasRef}>
-      {childrenWithProps}
-    </canvas>
+    <div ref={divRef} style={{ ...style }}>
+      <canvas
+        width={width * ratio}
+        height={height * ratio}
+        style={{ width: "100%", height: "100%" }}
+        ref={canvasRef}
+      >
+        {childrenWithProps}
+      </canvas>
+    </div>
   );
 }

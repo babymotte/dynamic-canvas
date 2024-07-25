@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import { DynamicCanvas } from "./components/DynamicCanvas";
-import { CanvasComponentProps } from "./hooks/dynamicCanvas";
+export { DynamicCanvas } from "./components/DynamicCanvas";
 
-export { DynamicCanvas, CanvasComponentProps };
+export type CanvasComponentProps = {
+  ctx?: CanvasRenderingContext2D | null | undefined;
+  canvasWidth?: number;
+  canvasHeight?: number;
+};
